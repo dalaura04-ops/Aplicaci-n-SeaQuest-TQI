@@ -293,7 +293,7 @@ var curMode='daily',curParam='color',curHView='sem';
 var activeLines=new Set(['16','72','60']);
 var dateFrom=null,dateTo=null,semChart=null;
 var fileHandle=null,refTimer=null,cdTimer=null,cdSec=REFRESH_SEC;
-
+ 
 async function abrirArchivo(){
   if(window.showOpenFilePicker){
     try{
@@ -314,7 +314,7 @@ async function abrirArchivo(){
   }
   document.getElementById('file-input').click();
 }
-
+ 
 function onFileSelected(inp){
   var f=inp.files[0];
   if(!f)return;
@@ -325,7 +325,7 @@ function onFileSelected(inp){
   document.getElementById('b-last').textContent='Recarga el archivo para actualizar';
   inp.value='';
 }
-
+ 
 async function leerDesdeHandle(){
   try{
     var f=await fileHandle.getFile();
@@ -334,7 +334,7 @@ async function leerDesdeHandle(){
     mostrarError('No se pudo releer: '+e.message);
   }
 }
-
+ 
 function leerDesdeFile(file){
   var isCsv=file.name.toLowerCase().endsWith('.csv');
   var reader=new FileReader();
@@ -363,7 +363,7 @@ function leerDesdeFile(file){
     else reader.readAsArrayBuffer(file);
   });
 }
-
+ 
 function iniciarRefresh(){
   if(refTimer)clearInterval(refTimer);
   if(cdTimer)clearInterval(cdTimer);
@@ -380,7 +380,7 @@ function iniciarRefresh(){
     if(fileHandle)leerDesdeHandle();
   },REFRESH_SEC*1000);
 }
-
+ 
 function mostrarDashboard(fname){
   document.getElementById('welcome').style.display='none';
   document.getElementById('err-box').style.display='none';
@@ -404,13 +404,13 @@ function mostrarDashboard(fname){
     document.getElementById('date-to').value=all[all.length-1];
   }
 }
-
+ 
 function mostrarError(msg){
   var e=document.getElementById('err-box');
   e.style.display='block';
   e.innerHTML='<strong>Error al leer el archivo</strong><br><br>'+msg;
 }
-
+ 
 function parseFecha(raw){
   if(!raw)return null;
   if(raw instanceof Date)return isNaN(raw.getTime())?null:raw.toISOString().slice(0,10);
@@ -425,7 +425,7 @@ function parseFecha(raw){
   var dt2=new Date(s);
   return isNaN(dt2.getTime())?null:dt2.toISOString().slice(0,10);
 }
-
+ 
 function toN(v){
   if(v===null||v===undefined)return null;
   if(v==='-'||String(v).trim()==='')return null;
@@ -433,7 +433,7 @@ function toN(v){
   var n=parseFloat(String(v));
   return isNaN(n)?null:n;
 }
-
+ 
 function parseRows(rows){
   DATA={'16':[],'72':[],'60':[]};
   NOTES=[];
@@ -486,7 +486,7 @@ function parseRows(rows){
   NOTES=NOTES.filter(function(n){var k=n.fecha+n.text;if(seenN.has(k))return false;seenN.add(k);return true;});
   NOTES.sort(function(a,b){return String(a.fecha).localeCompare(String(b.fecha));});
 }
-
+ 
 function computeBaseline(){
   HIST_PRE={};
   var ls=['16','72','60'];
@@ -501,7 +501,7 @@ function computeBaseline(){
     }
   }
 }
-
+ 
 function calcAvg(a){
   var v=a.filter(function(x){return x!==null;});
   return v.length?v.reduce(function(s,x){return s+x;},0)/v.length:null;
@@ -528,12 +528,12 @@ function semVal(val,hist,p){
   if(d>=t.bad)return 'bad';
   return 'warn';
 }
-
+ 
 function render(){
   if(curMode==='daily')renderDaily();
   else renderHist();
 }
-
+ 
 function renderDaily(){
   var allDates=[];
   var keys=Object.keys(DATA);
@@ -594,7 +594,7 @@ function renderDaily(){
   if(!s)s='<span class="chip cn">Sin datos suficientes</span>';
   document.getElementById('sum-chips').innerHTML=s;
 }
-
+ 
 function filteredData(l){
   return DATA[l].filter(function(d){
     if(dateFrom&&d.fecha<dateFrom)return false;
@@ -602,7 +602,7 @@ function filteredData(l){
     return true;
   });
 }
-
+ 
 function renderHist(){
   renderHMetrics();
   if(curHView==='sem')renderSem();
@@ -610,7 +610,7 @@ function renderHist(){
   else if(curHView==='stats')renderStats();
   else renderNotes();
 }
-
+ 
 function renderHMetrics(){
   var lines=Array.from(activeLines);
   var dec=PDEC[curParam];
@@ -635,7 +635,7 @@ function renderHMetrics(){
   }
   document.getElementById('h-metrics').innerHTML=html;
 }
-
+ 
 function weeklyAvg(data,param){
   var weeks={};
   for(var i=0;i<data.length;i++){
@@ -656,7 +656,7 @@ function weeklyAvg(data,param){
   }
   return out;
 }
-
+ 
 function renderSem(){
   if(semChart){semChart.destroy();semChart=null;}
   var lines=Array.from(activeLines);
@@ -727,13 +727,13 @@ function renderSem(){
     }
   });
 }
-
+ 
 function bxStats(data,p){
   var v=data.map(function(d){return d[p];}).filter(function(x){return x!==null;});
   if(!v.length)return null;
   return{min:Math.min.apply(null,v),max:Math.max.apply(null,v),q1:calcQ1(v),q3:calcQ3(v),med:calcMed(v),avg:calcAvg(v),n:v.length};
 }
-
+ 
 function renderBox(){
   var dec=PDEC[curParam];
   var pl=PLABELS[curParam];
@@ -782,7 +782,7 @@ function renderBox(){
   }
   document.getElementById('boxGrid').innerHTML=html;
 }
-
+ 
 function renderStats(){
   var lines=Array.from(activeLines);
   if(!lines.length){document.getElementById('statsTable').innerHTML='<p style="font-size:12px;color:var(--hint)">Selecciona al menos una linea.</p>';return;}
@@ -814,7 +814,7 @@ function renderStats(){
   }
   document.getElementById('statsTable').innerHTML=html;
 }
-
+ 
 function renderNotes(){
   if(!NOTES.length){document.getElementById('notesList').innerHTML='<p style="font-size:12px;color:var(--hint)">No se encontraron notas.</p>';return;}
   var html='';
@@ -826,7 +826,7 @@ function renderNotes(){
   }
   document.getElementById('notesList').innerHTML=html;
 }
-
+ 
 async function exportarPDF(){
   var btn=document.getElementById('btn-pdf');
   btn.disabled=true;
@@ -875,7 +875,7 @@ async function exportarPDF(){
     btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><rect x="2" y="1" width="10" height="13" rx="2"/><path d="M5 5h5M5 8h5M5 11h3"/><path d="M10 1v4h4"/></svg> Descargar PDF';
   }
 }
-
+ 
 function setMode(m){
   curMode=m;
   document.getElementById('btn-daily').classList.toggle('active',m==='daily');
@@ -884,7 +884,7 @@ function setMode(m){
   document.getElementById('view-hist').classList.toggle('show',m==='hist');
   render();
 }
-
+ 
 function toggleLine(l,btn){
   if(activeLines.has(l)){
     if(activeLines.size===1)return;
@@ -896,14 +896,14 @@ function toggleLine(l,btn){
   }
   renderHist();
 }
-
+ 
 function setParam(p,btn){
   document.querySelectorAll('#param-btns .btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
   curParam=p;
   renderHist();
 }
-
+ 
 function setHView(v,btn){
   document.querySelectorAll('.vtab').forEach(function(b){b.classList.remove('active');});
   if(btn&&btn.classList)btn.classList.add('active');
@@ -915,13 +915,13 @@ function setHView(v,btn){
   }
   renderHist();
 }
-
+ 
 function applyRange(){
   dateFrom=document.getElementById('date-from').value||null;
   dateTo=document.getElementById('date-to').value||null;
   renderHist();
 }
-
+ 
 function resetRange(){
   var all=[];
   var keys=Object.keys(DATA);
