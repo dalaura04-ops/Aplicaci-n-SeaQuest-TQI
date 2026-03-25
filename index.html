@@ -610,10 +610,10 @@ function renderDaily(){
   var last=allDates[allDates.length-1];
   var dt=new Date(last+'T12:00:00');
   document.getElementById('daily-date').textContent=dt.toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  var params=['color','cl_comb','mn','turb','ph','cl_libre','cl_total','orp'];
-  var pLbls=['Color','Cl. combinado','Manganeso','Turbidez','pH','Cl. libre','Cl. total','ORP'];
-  var pUnits=['UPC','mg/L','mg/L','NTU','','mg/L','mg/L','mV'];
-  var decs=[1,3,4,2,2,2,2,0];
+var params=['color','cl_comb','mn','turb','ph','cl_libre','cl_total','orp','fe'];
+var pLbls=['Color','Cl. combinado','Manganeso','Turbidez','pH','Cl. libre','Cl. total','ORP','Hierro'];
+var pUnits=['UPC','mg/L','mg/L','NTU','','mg/L','mg/L','mV','mg/L'];
+var decs=[1,3,4,2,2,2,2,0,3];
   var sicons={good:'&#9650;',warn:'&#9679;',bad:'&#9660;',none:'&mdash;'};
   var scls={good:'sg',warn:'sw',bad:'sb',none:'sn'};
   var chips=[],html='';
