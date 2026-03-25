@@ -215,6 +215,7 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--hint);}
           <button class="btn" onclick="setParam('cl_libre',this)">Cl. libre</button>
           <button class="btn" onclick="setParam('cl_total',this)">Cl. total</button>
           <button class="btn" onclick="setParam('orp',this)">ORP</button>
+          <button class="btn" onclick="setParam('fe',this)">Hierro</button>
         </div>
         <div class="date-range" style="margin-left:auto;">
           <label>Desde</label><input type="date" id="date-from">
@@ -275,7 +276,8 @@ var LINE_COLS={
     cl_comb:9,
     mn:12,
     orp:13,
-    dureza:14
+    dureza:14,
+    fe:10
   },
   '72':{
     fecha:19,
@@ -287,7 +289,8 @@ var LINE_COLS={
     cl_comb:27,
     mn:30,
     orp:31,
-    dureza:32
+    dureza:32,
+    fe:28
   },
   '60':{
     fecha:37,
@@ -299,7 +302,8 @@ var LINE_COLS={
     cl_comb:45,
     mn:48,
     orp:49,
-    dureza:50
+    dureza:50,
+    fe:46
   }
 };
 var NOTE_COLS = {
@@ -310,7 +314,8 @@ var NOTE_COLS = {
 var THR={
   color:{good:-.10,bad:.05},cl_comb:{good:-.10,bad:.05},mn:{good:-.10,bad:.05},
   turb:{good:-.10,bad:.05},ph:{good:-.02,bad:.02},cl_libre:{good:-.10,bad:.05},
-  cl_total:{good:-.10,bad:.05},orp:{good:.03,bad:-.03}
+  cl_total:{good:-.10,bad:.05},orp:{good:.03,bad:-.03},
+  fe:{good:-.10,bad:.05}
 };
 var LNAMES={'16':'Linea 16"','72':'Linea 72"','60':'Linea 60"'};
 var LCOL={'16':'#2d5f9e','72':'#1a7a52','60':'#d85a30'};
@@ -318,9 +323,10 @@ var LCOL2={'16':'#a0c4e8','72':'#90d4b4','60':'#eaaa88'};
 var PLABELS={
   color:'Color (UPC)',cl_comb:'Cloro combinado (mg/L)',mn:'Manganeso (mg/L)',
   turb:'Turbidez (NTU)',ph:'pH',cl_libre:'Cloro libre residual (mg/L)',
-  cl_total:'Cloro total (mg/L)',orp:'ORP (mV)'
+  cl_total:'Cloro total (mg/L)',orp:'ORP (mV)',
+  fe:'Hierro (mg/L)'
 };
-var PDEC={color:1,cl_comb:3,mn:4,turb:2,ph:2,cl_libre:2,cl_total:2,orp:0};
+var PDEC={color:1,cl_comb:3,mn:4,turb:2,ph:2,cl_libre:2,cl_total:2,orp:0,fe:3};
 var FIXED_EVENTS=[
   {fecha:'2026-02-13',text:'Inicio inyeccion Seaquest',color:'#d95525'},
   {fecha:'2026-03-03',text:'Cierre tren derecho de filtracion - Tiempos de Retencion se reducen. Aumento de Cloro Libre en Linea 16"',color:'#7c3aed'}
