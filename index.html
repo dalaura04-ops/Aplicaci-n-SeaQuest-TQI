@@ -208,14 +208,20 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--hint);}
         <span class="ctrl-lbl" style="margin-left:6px;">Par&aacute;metro:</span>
         <div class="ctrl-grp" id="param-btns">
           <button class="btn active" onclick="setParam('color',this)">Color</button>
-          <button class="btn" onclick="setParam('cl_comb',this)">Cl. combinado</button>
-          <button class="btn" onclick="setParam('mn',this)">Manganeso</button>
-          <button class="btn" onclick="setParam('turb',this)">Turbidez</button>
-          <button class="btn" onclick="setParam('ph',this)">pH</button>
-          <button class="btn" onclick="setParam('cl_libre',this)">Cl. libre</button>
-          <button class="btn" onclick="setParam('cl_total',this)">Cl. total</button>
-          <button class="btn" onclick="setParam('orp',this)">ORP</button>
-          <button class="btn" onclick="setParam('fe',this)">Hierro</button>
+<button class="btn" onclick="setParam('cl_comb',this)">Cl. combinado</button>
+<button class="btn" onclick="setParam('mn',this)">Manganeso</button>
+<button class="btn" onclick="setParam('turb',this)">Turbidez</button>
+<button class="btn" onclick="setParam('ph',this)">pH</button>
+<button class="btn" onclick="setParam('cl_libre',this)">Cl. libre</button>
+<button class="btn" onclick="setParam('cl_total',this)">Cl. total</button>
+<button class="btn" onclick="setParam('orp',this)">ORP</button>
+<button class="btn" onclick="setParam('fe',this)">Hierro</button>
+<button class="btn" onclick="setParam('al_residual',this)">Al. residual</button>
+<button class="btn" onclick="setParam('alcalinidad',this)">Alcalinidad</button>
+<button class="btn" onclick="setParam('conductividad',this)">Conductividad</button>
+<button class="btn" onclick="setParam('dureza_total',this)">Dureza total</button>
+<button class="btn" onclick="setParam('dureza_calcica',this)">Dureza cálcica</button>
+<button class="btn" onclick="setParam('fosfato',this)">Fosfato</button>
         </div>
         <div class="date-range" style="margin-left:auto;">
           <label>Desde</label><input type="date" id="date-from">
@@ -267,43 +273,19 @@ var SQ_START='2026-02-13';
 var REFRESH_SEC=60;
 var LINE_COLS={
   '16':{
-    fecha:1,
-    turb:2,
-    color:3,
-    ph:4,
-    cl_libre:7,
-    cl_total:8,
-    cl_comb:9,
-    mn:12,
-    orp:13,
-    dureza:14,
-    fe:10
+    fecha:1,turb:2,color:3,ph:4,alcalinidad:5,conductividad:6,
+    cl_libre:7,cl_total:8,cl_comb:9,fe:10,al_residual:11,mn:12,
+    orp:13,dureza_total:14,dureza_calcica:15,fosfato:16
   },
   '72':{
-    fecha:19,
-    turb:20,
-    color:21,
-    ph:22,
-    cl_libre:25,
-    cl_total:26,
-    cl_comb:27,
-    mn:30,
-    orp:31,
-    dureza:32,
-    fe:28
+    fecha:19,turb:20,color:21,ph:22,alcalinidad:23,conductividad:24,
+    cl_libre:25,cl_total:26,cl_comb:27,fe:28,al_residual:29,mn:30,
+    orp:31,dureza_total:32,dureza_calcica:33,fosfato:34
   },
   '60':{
-    fecha:37,
-    turb:38,
-    color:39,
-    ph:40,
-    cl_libre:43,
-    cl_total:44,
-    cl_comb:45,
-    mn:48,
-    orp:49,
-    dureza:50,
-    fe:46
+    fecha:37,turb:38,color:39,ph:40,alcalinidad:41,conductividad:42,
+    cl_libre:43,cl_total:44,cl_comb:45,fe:46,al_residual:47,mn:48,
+    orp:49,dureza_total:50,dureza_calcica:51,fosfato:52
   }
 };
 var NOTE_COLS = {
@@ -315,7 +297,10 @@ var THR={
   color:{good:-.10,bad:.05},cl_comb:{good:-.10,bad:.05},mn:{good:-.10,bad:.05},
   turb:{good:-.10,bad:.05},ph:{good:-.02,bad:.02},cl_libre:{good:-.10,bad:.05},
   cl_total:{good:-.10,bad:.05},orp:{good:.03,bad:-.03},
-  fe:{good:-.10,bad:.05}
+  fe:{good:-.10,bad:.05},al_residual:{good:-.10,bad:.05},
+  alcalinidad:{good:-.05,bad:.05},conductividad:{good:-.05,bad:.05},
+  dureza_total:{good:-.10,bad:.05},dureza_calcica:{good:-.10,bad:.05},
+  fosfato:{good:-.10,bad:.05}
 };
 var LNAMES={'16':'Linea 16"','72':'Linea 72"','60':'Linea 60"'};
 var LCOL={'16':'#2d5f9e','72':'#1a7a52','60':'#d85a30'};
@@ -323,10 +308,16 @@ var LCOL2={'16':'#a0c4e8','72':'#90d4b4','60':'#eaaa88'};
 var PLABELS={
   color:'Color (UPC)',cl_comb:'Cloro combinado (mg/L)',mn:'Manganeso (mg/L)',
   turb:'Turbidez (NTU)',ph:'pH',cl_libre:'Cloro libre residual (mg/L)',
-  cl_total:'Cloro total (mg/L)',orp:'ORP (mV)',
-  fe:'Hierro (mg/L)'
+  cl_total:'Cloro total (mg/L)',orp:'ORP (mV)',fe:'Hierro (mg/L)',
+  al_residual:'Aluminio residual (mg/L)',alcalinidad:'Alcalinidad (mg/L)',
+  conductividad:'Conductividad (µS/cm)',dureza_total:'Dureza total (mg/L)',
+  dureza_calcica:'Dureza cálcica (mg/L)',fosfato:'Fosfato residual (mg/L)'
 };
-var PDEC={color:1,cl_comb:3,mn:4,turb:2,ph:2,cl_libre:2,cl_total:2,orp:0,fe:3};
+var PDEC={
+  color:1,cl_comb:3,mn:4,turb:2,ph:2,cl_libre:2,cl_total:2,orp:0,
+  fe:3,al_residual:3,alcalinidad:1,conductividad:0,dureza_total:1,
+  dureza_calcica:1,fosfato:2
+};
 var FIXED_EVENTS=[
   {fecha:'2026-02-13',text:'Inicio inyeccion Seaquest',color:'#d95525'},
   {fecha:'2026-03-03',text:'Cierre tren derecho de filtracion - Tiempos de Retencion se reducen. Aumento de Cloro Libre en Linea 16"',color:'#7c3aed'}
@@ -519,20 +510,24 @@ for(var ni=0;ni<lsNotas.length;ni++){
       var fecha=parseFecha(row[c.fecha]);
       if(!fecha)continue;
       DATA[l].push({
-        fecha:fecha,
-        turb:toN(c.turb<row.length?row[c.turb]:null),
-        color:toN(c.color<row.length?row[c.color]:null),
-        ph:toN(c.ph<row.length?row[c.ph]:null),
-        cl_libre:toN(c.cl_libre<row.length?row[c.cl_libre]:null),
-        cl_total:toN(c.cl_total<row.length?row[c.cl_total]:null),
-        cl_comb:toN(c.cl_comb<row.length?row[c.cl_comb]:null),
-        mn:toN(c.mn<row.length?row[c.mn]:null),
-        orp:toN(c.orp<row.length?row[c.orp]:null),
-        fe:toN(c.fe<row.length?row[c.fe]:null),
-        periodo:fecha>=SQ_START?'Con SQ':'Antes SQ'
-      });
-    }
-  }
+  fecha:fecha,
+  turb:toN(c.turb<row.length?row[c.turb]:null),
+  color:toN(c.color<row.length?row[c.color]:null),
+  ph:toN(c.ph<row.length?row[c.ph]:null),
+  alcalinidad:toN(c.alcalinidad<row.length?row[c.alcalinidad]:null),
+  conductividad:toN(c.conductividad<row.length?row[c.conductividad]:null),
+  cl_libre:toN(c.cl_libre<row.length?row[c.cl_libre]:null),
+  cl_total:toN(c.cl_total<row.length?row[c.cl_total]:null),
+  cl_comb:toN(c.cl_comb<row.length?row[c.cl_comb]:null),
+  fe:toN(c.fe<row.length?row[c.fe]:null),
+  al_residual:toN(c.al_residual<row.length?row[c.al_residual]:null),
+  mn:toN(c.mn<row.length?row[c.mn]:null),
+  orp:toN(c.orp<row.length?row[c.orp]:null),
+  dureza_total:toN(c.dureza_total<row.length?row[c.dureza_total]:null),
+  dureza_calcica:toN(c.dureza_calcica<row.length?row[c.dureza_calcica]:null),
+  fosfato:toN(c.fosfato<row.length?row[c.fosfato]:null),
+  periodo:fecha>=SQ_START?'Con SQ':'Antes SQ'
+});
   var ls2=['16','72','60'];
   for(var li2=0;li2<ls2.length;li2++){
     var l2=ls2[li2];
@@ -610,10 +605,10 @@ function renderDaily(){
   var last=allDates[allDates.length-1];
   var dt=new Date(last+'T12:00:00');
   document.getElementById('daily-date').textContent=dt.toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-var params=['color','cl_comb','mn','turb','ph','cl_libre','cl_total','orp','fe'];
-var pLbls=['Color','Cl. combinado','Manganeso','Turbidez','pH','Cl. libre','Cl. total','ORP','Hierro'];
-var pUnits=['UPC','mg/L','mg/L','NTU','','mg/L','mg/L','mV','mg/L'];
-var decs=[1,3,4,2,2,2,2,0,3];
+var params=['color','cl_comb','mn','turb','ph','cl_libre','cl_total','orp','fe','al_residual','alcalinidad','conductividad','dureza_total','dureza_calcica','fosfato'];
+var pLbls=['Color','Cl. combinado','Manganeso','Turbidez','pH','Cl. libre','Cl. total','ORP','Hierro','Al. residual','Alcalinidad','Conductividad','Dureza total','Dureza cálcica','Fosfato'];
+var pUnits=['UPC','mg/L','mg/L','NTU','','mg/L','mg/L','mV','mg/L','mg/L','mg/L','µS/cm','mg/L','mg/L','mg/L'];
+var decs=[1,3,4,2,2,2,2,0,3,3,1,0,1,1,2];
   var sicons={good:'&#9650;',warn:'&#9679;',bad:'&#9660;',none:'&mdash;'};
   var scls={good:'sg',warn:'sw',bad:'sb',none:'sn'};
   var chips=[],html='';
