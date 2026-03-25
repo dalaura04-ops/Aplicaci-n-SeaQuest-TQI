@@ -265,11 +265,48 @@ footer{text-align:center;padding:18px;font-size:11px;color:var(--hint);}
 var SQ_START='2026-02-13';
 var REFRESH_SEC=60;
 var LINE_COLS={
-  '16':{fecha:1,turb:2,color:3,ph:4,cl_libre:7,cl_total:8,cl_comb:9,mn:12,orp:13},
-  '72':{fecha:19,turb:20,color:21,ph:22,cl_libre:25,cl_total:26,cl_comb:27,mn:30,orp:31},
-  '60':{fecha:37,turb:38,color:39,ph:40,cl_libre:43,cl_total:44,cl_comb:45,mn:48,orp:49}
+  '16':{
+    fecha:1,
+    turb:2,
+    color:3,
+    ph:4,
+    cl_libre:7,
+    cl_total:8,
+    cl_comb:9,
+    mn:12,
+    orp:13,
+    dureza:14
+  },
+  '72':{
+    fecha:19,
+    turb:20,
+    color:21,
+    ph:22,
+    cl_libre:25,
+    cl_total:26,
+    cl_comb:27,
+    mn:30,
+    orp:31,
+    dureza:32
+  },
+  '60':{
+    fecha:37,
+    turb:38,
+    color:39,
+    ph:40,
+    cl_libre:43,
+    cl_total:44,
+    cl_comb:45,
+    mn:48,
+    orp:49,
+    dureza:50
+  }
 };
-var NOTE_COL=17;
+var NOTE_COLS = {
+  '16':17,  // R
+  '72':35,  // AJ
+  '60':53   // BB
+};
 var THR={
   color:{good:-.10,bad:.05},cl_comb:{good:-.10,bad:.05},mn:{good:-.10,bad:.05},
   turb:{good:-.10,bad:.05},ph:{good:-.02,bad:.02},cl_libre:{good:-.10,bad:.05},
